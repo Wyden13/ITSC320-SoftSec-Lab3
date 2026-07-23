@@ -2,11 +2,13 @@
 
 **Course:** ITSC320-B — Software Security
 
+**Group:** Group 9
+
 **Assignment:** Lab — Cross-Platform Security
 
 **Application:** _Totally Secure Math_ (`AwesomeProject`)
 
-**Date:** July 9, 2026
+**Date:** July 23, 2026
 
 ---
 
