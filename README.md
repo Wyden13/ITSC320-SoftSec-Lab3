@@ -1,25 +1,12 @@
 # A Security Assessment and Hardening of the "Totally Secure Math" Mobile Application
 
 **Course:** ITSC320-B — Software Security
+
 **Assignment:** Lab — Cross-Platform Security
-**Application:** _Totally Secure Math_ (React Native 0.78, `AwesomeProject`)
+
+**Application:** _Totally Secure Math_ (`AwesomeProject`)
+
 **Date:** July 9, 2026
-
----
-
-## Abstract
-
-_Totally Secure Math_ is a cross-platform (iOS/Android) React Native application that lets a
-user log in and store "math notes" whose bodies are evaluated as arithmetic expressions.
-Despite its name, the application contains several serious, textbook security flaws. This paper
-documents a security assessment of the application covering five vulnerability classes —
-insecure data storage, improper authentication, code injection, insufficient input validation,
-and insecure coding practices. For each finding we describe the vulnerability type, its location
-in the code, and how it could be exploited. We then describe the mitigations implemented in the
-codebase: replacing dynamic evaluation with a whitelist-based parser, moving credential handling
-to a salted-hash verifier, encrypting on-device data, externalizing secrets to an environment
-file, and adding strict input validation. Finally, we explain why each measure matters and
-reflect on the secure-development practices we will adopt going forward.
 
 ---
 
