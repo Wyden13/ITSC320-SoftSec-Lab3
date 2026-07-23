@@ -41,6 +41,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# Secrets — never commit real credentials/keys (SECURITY FIX, see REPORT.md II-E)
+.env
+
+
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
