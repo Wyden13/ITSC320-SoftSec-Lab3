@@ -57,6 +57,8 @@ const CREDENTIALS: ICredentialRecord[] = [
   },
 ];
 
+// Hash the password with PBKDF2 using the given salt.
+// The result is a hex string.
 function hashPassword(password: string, salt: string): string {
   return CryptoJS.PBKDF2(password, salt, {
     keySize: KEY_SIZE_WORDS,

@@ -34,4 +34,13 @@ describe('safeEvaluate', () => {
     expect(() => safeEvaluate('(1+2')).toThrow();
     expect(() => safeEvaluate('1/0')).toThrow();
   });
+
+  it('rejects chained unary operators', () => {
+    expect(() => safeEvaluate('2+++2')).toThrow();
+    expect(() => safeEvaluate('2---2')).toThrow();
+    expect(() => safeEvaluate('--5')).toThrow();
+    // A single unary after a binary op / start is still valid.
+    expect(safeEvaluate('3 * -2')).toBe(-6);
+    expect(safeEvaluate('-5 + 3')).toBe(-2);
+  });
 });

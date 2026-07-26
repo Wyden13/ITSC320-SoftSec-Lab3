@@ -155,12 +155,17 @@ export function safeEvaluate(rawInput: string): number {
   };
 
   let previous: string | null = null;
+  // True when the operator we just processed was consumed as a unary
+  // '+'/'-'. Used to reject chained unary operators like "2+++2".
+  let previousWasUnary = false;
 
   for (const token of tokens) {
     if (!isNaN(Number(token)) && token !== '(' && token !== ')') {
       values.push(Number(token));
+      previousWasUnary = false;
     } else if (token === '(') {
       operators.push('(');
+      previousWasUnary = false;
     } else if (token === ')') {
       while (operators.length && operators[operators.length - 1] !== '(') {
         collapse();
@@ -168,6 +173,7 @@ export function safeEvaluate(rawInput: string): number {
       if (operators.pop() !== '(') {
         throw new Error('Mismatched parentheses.');
       }
+      previousWasUnary = false;
     } else if (isOperator(token)) {
       // A + or - is unary when it opens the expression, follows '(',
       // or follows another operator (e.g. "-5" or "3*-2").
@@ -177,9 +183,15 @@ export function safeEvaluate(rawInput: string): number {
         isOperator(previous as string);
 
       if (isUnary) {
+        // At most one unary operator may open an operand. Chaining
+        // them (e.g. "2+++2", "--5") is malformed, not arithmetic.
+        if (previousWasUnary) {
+          throw new Error('Malformed expression.');
+        }
         if (token === '+') {
           // Unary plus is a no-op; skip it.
           previous = token;
+          previousWasUnary = true;
           continue;
         }
         if (token === '-') {
@@ -187,12 +199,14 @@ export function safeEvaluate(rawInput: string): number {
           // collapsing lower/equal-precedence operators.
           operators.push('u');
           previous = token;
+          previousWasUnary = true;
           continue;
         }
         // A unary '*' or '/' is not valid.
         throw new Error('Malformed expression.');
       }
 
+      previousWasUnary = false;
       while (
         operators.length &&
         operators[operators.length - 1] !== '(' &&
